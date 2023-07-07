@@ -15,6 +15,7 @@ class DashboardController extends AbstractController
             'controller_name' => 'DashboardController',
         ]);
     }
+    $var1 = "modif user";
     #[Route('/admin', name: 'app_dashboard_admin')]
     public function indexAdmin(): Response
     {
