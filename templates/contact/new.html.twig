@@ -1,0 +1,11 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}New Contact{% endblock %}
+
+{% block body %}
+    <h3 align="center">Create new Contact</h3>
+
+    {{ include('contact/_form.html.twig') }}
+
+    <a href="{{ path('app_contact_index') }}">back to list</a>
+{% endblock %}
