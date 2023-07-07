@@ -11,12 +11,12 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(): Response
     {
+        $var4 ="modif sur branch test"
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
         ]);
     }
-    $var1 = "modif user";
-    $v2 = "21";
+    
     #[Route('/admin', name: 'app_dashboard_admin')]
     public function indexAdmin(): Response
     {
