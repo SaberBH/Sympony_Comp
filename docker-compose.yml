@@ -1,21 +1,57 @@
+# docker compose version
 version: '3'
 
+# define services
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
 
+# symfony service
+  symfony:
+    image: symfony_train
+    ports:
+      - "84:80" 
+    container_name: symf_train_cont
+    depends_on:
+      - database
+    restart: always
+    environment:
+      DATABASE_URL: "mysql://root:saber*123@database:3306/amssymfony?serverVersion=MariaDB-10.4.18"
+    networks:
+      - symfony_net
+      
+      # Database Service(Mysql)
+  database:
+    image: mysql
+    container_name: symf_train_db
+    volumes:
+       - db_symf:/var/lib/mysql 
+    restart: always
+    environment:
+      MYSQL_DATABASE: amssymfony
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: saber*123 
+    networks:
+      - symfony_net
+      
+      
+       # phpmyadmin Service 
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: symf_train_phpad
+    depends_on:
+      - database
+    restart: always
+    ports:
+      - 7067:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - symfony_net
+
+# Dec vol
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+   db_symf:
+
+# Dec net
+networks:
+  symfony_net:
+
